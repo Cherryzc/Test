@@ -1,0 +1,19 @@
+1，下载Git installer，地址；http://git-scm.com/downloads 
+2， 打开终端，使用git –version或者which git命令查看安装版本，有就是安装成功了 
+3，创建一个全球用户名、全球邮箱，设置全局配置 
+git config –global user.name “用户名”  比如 git config –global user.name Cherryzc
+git config –global user.email “对应邮箱”  比如 git config –global user.email 12334@163.com
+
+4.打开VSCODE, 到终端输入
+cd E:\Project\GitRepository\Test
+创建一个 README.md 文件
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/Cherryzc/Test.git   //用你仓库的url,Test.git中Test为仓库名称,使用时必须先创建 ,注意,一定要先创建了 Test 仓库
+git push -u origin master  //提交到你的仓库
+
+5.下面就可以用VSCode 的源码管理了
+
+
+参考 https://blog.csdn.net/lhb_11/article/details/77837078
