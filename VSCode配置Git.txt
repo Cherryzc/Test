@@ -2,8 +2,8 @@
 安装后 设置VScode 文件-首选项-设置 "git.path": "C:/Development Environment/Git/bin/git.exe",
 2， 打开终端，使用git –version或者which git命令查看安装版本，有就是安装成功了 
 3，创建一个全球用户名、全球邮箱，设置全局配置 
-git config -–global user.name “用户名”  比如 git config –global user.name Cherryzc
-git config -–global user.email “对应邮箱”  比如 git config –global user.email 12334@163.com
+git config --global user.name “用户名”  比如 git config --global user.name Cherryzc
+git config --global user.email “对应邮箱”  比如 git config --global user.email 12334@163.com
 
 4.打开VSCODE, 到终端输入
 cd E:\Project\GitRepository\Test
