@@ -4,17 +4,12 @@
 
 #pragma once
 
-class CMainDlg : public CDialogImpl<CMainDlg>, public CUpdateUI<CMainDlg>,
-		public CMessageFilter, public CIdleHandler
+
+typedef CWinTraits<WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, WS_EX_TOPMOST | WS_EX_COMPOSITED | WS_EX_TRANSPARENT | WS_EX_LAYERED> CMainWndTraits;
+
+class CMainDlg : public CWindowImpl<CMainDlg, CWindow, CMainWndTraits>
 {
 public:
-	enum { IDD = IDD_MAINDLG };
-
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
-	virtual BOOL OnIdle();
-
-	BEGIN_UPDATE_UI_MAP(CMainDlg)
-	END_UPDATE_UI_MAP()
 
 	BEGIN_MSG_MAP(CMainDlg)
 		MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)

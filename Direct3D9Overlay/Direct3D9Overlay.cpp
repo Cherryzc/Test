@@ -6,6 +6,7 @@
 #include "resource.h"
 
 #include "MainDlg.h"
+#include "Overlay/Direct3D9.h"
 
 CAppModule _Module;
 
@@ -22,9 +23,23 @@ int Run(LPTSTR /*lpstrCmdLine*/ = NULL, int nCmdShow = SW_SHOWDEFAULT)
 		return 0;
 	}
 
+
+
 	dlgMain.ShowWindow(nCmdShow);
 
-	int nRet = theLoop.Run();
+	int nRet = 0;//theLoop.Run();
+
+	if (SUCCEEDED(Direct3D9::CreateOverlay(dlgMain.m_hWnd, L"Windows 任务管理器"/*L"Brawlhalla"*/ /*L"League of Legends (TM) Client"*/)))
+	{
+		while (Direct3D9::Render())
+		{
+			Sleep(1);
+		}
+	}
+
+
+	if (dlgMain.IsWindow())
+		dlgMain.DestroyWindow();
 
 	_Module.RemoveMessageLoop();
 	return nRet;

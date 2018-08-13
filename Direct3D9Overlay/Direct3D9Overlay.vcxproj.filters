@@ -13,6 +13,12 @@
       <UniqueIdentifier>{be6afd3b-8bda-442e-aa38-0f142eb46188}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;jpg;jpeg;jpe;manifest</Extensions>
     </Filter>
+    <Filter Include="Overlay">
+      <UniqueIdentifier>{7fd4d7d6-55c1-480c-ad02-01486650c94a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Overlay2">
+      <UniqueIdentifier>{ac87cee0-ee7f-4276-8ecb-b47ed9c86e81}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -24,6 +30,9 @@
     <ClCompile Include="MainDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Overlay\Direct3D9.cpp">
+      <Filter>Overlay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -34,6 +43,12 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\Color.h">
+      <Filter>Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\Direct3D9.h">
+      <Filter>Overlay</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

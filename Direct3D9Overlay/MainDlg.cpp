@@ -8,17 +8,6 @@
 
 #include "MainDlg.h"
 
-BOOL CMainDlg::PreTranslateMessage(MSG* pMsg)
-{
-	return CWindow::IsDialogMessage(pMsg);
-}
-
-BOOL CMainDlg::OnIdle()
-{
-	UIUpdateChildWindows();
-	return FALSE;
-}
-
 LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 {
 	// center the dialog on the screen
@@ -30,25 +19,13 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 	HICON hIconSmall = AtlLoadIconImage(IDR_MAINFRAME, LR_DEFAULTCOLOR, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON));
 	SetIcon(hIconSmall, FALSE);
 
-	// register object for message filtering and idle updates
-	CMessageLoop* pLoop = _Module.GetMessageLoop();
-	ATLASSERT(pLoop != NULL);
-	pLoop->AddMessageFilter(this);
-	pLoop->AddIdleHandler(this);
-
-	UIAddChildWindowContainer(m_hWnd);
 
 	return TRUE;
 }
 
 LRESULT CMainDlg::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 {
-	// unregister message filtering and idle updates
-	CMessageLoop* pLoop = _Module.GetMessageLoop();
-	ATLASSERT(pLoop != NULL);
-	pLoop->RemoveMessageFilter(this);
-	pLoop->RemoveIdleHandler(this);
-
+	::PostQuitMessage(0);
 	return 0;
 }
 
