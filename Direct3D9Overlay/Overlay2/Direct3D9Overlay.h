@@ -1,3 +1,7 @@
+// https://docs.microsoft.com/zh-cn/windows/desktop/medfound/hardware-overlay-support
+// https://stackoverrun.com/cn/q/2021432
+// http://www.cnblogs.com/gamesky/archive/2013/03/28/2986919.html
+
 #pragma once
 #include "../Overlay/Color.h"
 
