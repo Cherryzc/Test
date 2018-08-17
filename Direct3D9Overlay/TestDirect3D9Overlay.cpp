@@ -7,6 +7,7 @@
 
 #include "MainDlg.h"
 #include "Overlay/Direct3D9.h"
+#include "Overlay2/Direct3D9Overlay.h"
 
 CAppModule _Module;
 
@@ -32,13 +33,23 @@ int Run(LPTSTR /*lpstrCmdLine*/ = NULL, int nCmdShow = SW_SHOWDEFAULT)
 	//L"±£Œ¿¬‹≤∑Beta"
 	//L"Brawlhalla"
 	//L"League of Legends (TM) Client"
-	if (SUCCEEDED(Direct3D9::CreateOverlay(dlgMain.m_hWnd, L"League of Legends (TM) Client")))
+	
+	CDirect3D9Overlay overLay;
+	if (SUCCEEDED(overLay.CreateOverlay(dlgMain.m_hWnd, L"±£Œ¿¬‹≤∑Beta")))
 	{
-		while (Direct3D9::Render())
+		while (overLay.Render())
 		{
 			Sleep(100);
 		}
 	}
+
+// 	if (SUCCEEDED(Direct3D9::CreateOverlay(dlgMain.m_hWnd, L"League of Legends (TM) Client")))
+// 	{
+// 		while (Direct3D9::Render())
+// 		{
+// 			Sleep(100);
+// 		}
+// 	}
 
 
 	if (dlgMain.IsWindow())

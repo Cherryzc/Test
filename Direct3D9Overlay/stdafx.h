@@ -42,6 +42,7 @@ extern CAppModule _Module;
 #pragma comment( lib, "d3dx9.lib" )
 #pragma comment( lib, "dwmapi.lib" )
 
+#include <vector>
 
 #define RENDER_WIDTH 300
 #define RENDER_HEIGHT 200

@@ -173,7 +173,7 @@ namespace Direct3D9
 		if( FAILED( hResult ) )
 			return E_FAIL;
 
-		if( FAILED( D3DXCreateFontA( pDevice, 14, 0, FW_NORMAL, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH|FF_DONTCARE, "Arial", &D3DFont[ 0 ].pFont ) ) )
+		if( FAILED( D3DXCreateFont( pDevice, 14, 0, FW_NORMAL, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH|FF_DONTCARE, L"Arial", &D3DFont[ 0 ].pFont ) ) )
 			return E_FAIL;
 
 		//==============================[ Add your custom Font here ]=================================//
@@ -196,23 +196,7 @@ namespace Direct3D9
 		return S_OK;
 		
 	}
-	LRESULT CALLBACK WndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
-	{
-		switch( uMsg )
-		{
-		case WM_DESTROY:
-			PostQuitMessage( 0 );
-			return 0;
-		case WM_KEYDOWN:
-			return 0;
-		case WM_ERASEBKGND:
-			SendMessage( hWnd, WM_PAINT, NULL, NULL );
-			return TRUE;
-		case WM_PAINT:
-			return 0;
-		}
-		return DefWindowProc( hWnd, uMsg, wParam, lParam );
-	}
+
 	void Shutdown( void )
 	{
 		if( pDevice != NULL )
@@ -279,7 +263,7 @@ namespace Direct3D9
 	{
 		szGameTitle = szGameWindowTitle;
 
-		if( !( char* )szGameTitle.c_str() )
+		if(!szGameTitle.c_str())
 			return E_FAIL;
 
 		hWndTarget = FindWindowW( NULL, szGameWindowTitle.c_str() );
