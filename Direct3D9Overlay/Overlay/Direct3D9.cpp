@@ -23,7 +23,6 @@ namespace Direct3D9
 	ID3DXLine*				pLine				= NULL;
 	int						iLastAddedFont		= 1;
 	int						iResolution[ 2 ]	= { 0 };
-	int						iCenter[ 2 ]		= { 0 };
 	MARGINS					mgDWMMargins		= { -1, -1, -1, -1 };
 	MSG						uMSG				= { 0 };
 	std::wstring			szGameTitle			= L"";
@@ -242,18 +241,15 @@ namespace Direct3D9
 			TranslateMessage( &uMSG );
 			DispatchMessage( &uMSG );
 		}
-		
-		if( !FindWindow( NULL, szGameTitle.c_str() ) )
-			return false;
 
 		pDevice->Clear( NULL, NULL, D3DCLEAR_TARGET, 0x00000000, 1.f, NULL );
 		
 		if( SUCCEEDED( pDevice->BeginScene() ) )
 		{
-			if( hWndTarget == GetForegroundWindow() )
+			if(FindWindow(NULL, szGameTitle.c_str()))
 			{
-				pRender->GardientRect( 100, 100, 500, 500, 0, false, RED, BLUE, BLACK );
-				pRender->String(100, 200, Color(255, 255, 255), GetFont(L"Arial"), L"4Z.External Base by ReactiioN'");
+				pRender->GardientRect(0, 0, RENDER_WIDTH, RENDER_HEIGHT, 0, false, RED, BLUE, BLACK );
+				pRender->String(0, RENDER_HEIGHT/2, Color(255, 255, 255), GetFont(L"Arial"), L"4Z.External Base by ReactiioN'");
 			}
 			pDevice->EndScene();
 		}
@@ -295,23 +291,23 @@ namespace Direct3D9
 		GetClientRect( hWndTarget, &rect_client );
 		iResolution[ 0 ] = rect_client.right;
 		iResolution[ 1 ] = rect_client.bottom;
-		iCenter[ 0 ] = iResolution[ 0 ] / 2;
-		iCenter[ 1 ] = iResolution[ 1 ] / 2;
 
 		hWndOverlay = hWnd;
 
 		if( !hWndOverlay )
 			return E_FAIL;
 
-		DwmExtendFrameIntoClientArea( hWndOverlay, &mgDWMMargins );
-		ShowWindow( hWndOverlay, SW_SHOWDEFAULT );
-		UpdateWindow( hWndOverlay );
-		GetWindowRect( hWndTarget, &rect_app );
+		DwmExtendFrameIntoClientArea(hWndOverlay, &mgDWMMargins);
+		ShowWindow(hWndOverlay, SW_SHOWDEFAULT);
+		UpdateWindow(hWndOverlay);
+		GetWindowRect(hWndTarget, &rect_app);
 
 		int border_x = GetSystemMetrics( SM_CXBORDER );
 		int border_y = GetSystemMetrics( SM_CYCAPTION );
 
-		MoveWindow( hWndOverlay, rect_app.left, rect_app.top, iResolution[ 0 ], iResolution[ 1 ], false );
+		int x = rect_app.left + (iResolution[0] - RENDER_WIDTH)/2;
+		int y = rect_app.top + (iResolution[1] - RENDER_HEIGHT)/2;
+		MoveWindow( hWndOverlay, x, y, RENDER_WIDTH, RENDER_HEIGHT, TRUE);
 
 		if( SUCCEEDED( Startup( hWndOverlay ) ) )
 		{

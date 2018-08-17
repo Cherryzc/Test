@@ -24,14 +24,17 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Direct3D9Overlay.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MainDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Overlay\Direct3D9.cpp">
       <Filter>Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay2\Direct3D9Overlay.cpp">
+      <Filter>Overlay2</Filter>
+    </ClCompile>
+    <ClCompile Include="TestDirect3D9Overlay.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -49,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="Overlay\Direct3D9.h">
       <Filter>Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay2\Direct3D9Overlay.h">
+      <Filter>Overlay2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@
 #pragma once
 
 
-typedef CWinTraits<WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, WS_EX_TOPMOST | WS_EX_COMPOSITED | WS_EX_TRANSPARENT | WS_EX_LAYERED> CMainWndTraits;
+typedef CWinTraits<WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, WS_EX_TOPMOST > CMainWndTraits;
 
 class CMainDlg : public CWindowImpl<CMainDlg, CWindow, CMainWndTraits>
 {

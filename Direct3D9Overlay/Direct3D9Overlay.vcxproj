@@ -68,6 +68,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -199,8 +200,9 @@
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Direct3D9Overlay.cpp" />
+    <ClCompile Include="TestDirect3D9Overlay.cpp" />
     <ClCompile Include="MainDlg.cpp" />
+    <ClCompile Include="Overlay2\Direct3D9Overlay.cpp" />
     <ClCompile Include="Overlay\Direct3D9.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -211,6 +213,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainDlg.h" />
+    <ClInclude Include="Overlay2\Direct3D9Overlay.h" />
     <ClInclude Include="Overlay\Color.h" />
     <ClInclude Include="Overlay\Direct3D9.h" />
     <ClInclude Include="resource.h" />
