@@ -62,28 +62,101 @@ HRESULT CDirect3D9Overlay::Startup(HWND hWindow)
 	if (FAILED(hResult))
 		return E_FAIL;
 
-	D3DPRESENT_PARAMETERS pParameter = { 0 };
-	pParameter.Windowed = TRUE;
-	pParameter.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	pParameter.BackBufferFormat = D3DFMT_A8R8G8B8;
-	pParameter.EnableAutoDepthStencil = TRUE;
-	pParameter.AutoDepthStencilFormat = D3DFMT_D16;
-	pParameter.MultiSampleType = D3DMULTISAMPLE_NONE;
-	pParameter.PresentationInterval = 0x80000000L;
+    UINT uAdapterCount = m_pD3D9Ex->GetAdapterCount();
 
-	if (SUCCEEDED(m_pD3D9Ex->CheckDeviceMultiSampleType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DFMT_A8R8G8B8, true, D3DMULTISAMPLE_NONMASKABLE, &msqAAQuality)))
-	{
-		pParameter.MultiSampleType = D3DMULTISAMPLE_NONMASKABLE;
-		pParameter.MultiSampleQuality = msqAAQuality - 1;
-	}
-	else
-	{
-		pParameter.MultiSampleType = D3DMULTISAMPLE_NONE;
-	}
+    for (UINT i = 0; i < uAdapterCount; i++)
+    {
+        D3DADAPTER_IDENTIFIER9 adapterID = {0};
+        m_pD3D9Ex->GetAdapterIdentifier(i, 0, &adapterID);
 
-	hResult = m_pD3D9Ex->CreateDeviceEx(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWindow, D3DCREATE_HARDWARE_VERTEXPROCESSING, &pParameter, NULL, &m_pD3DDevice9Ex);
-	if (FAILED(hResult))
-		return E_FAIL;
+        char strBuffer[2048] = {0};
+        sprintf(strBuffer, "Driver: %s\n, Description: %s\n, Device Name: %s\n, Vendor id:%4x\n,Device id: %4x\n",
+            adapterID.Driver, adapterID.Description, adapterID.DeviceName, adapterID.VendorId, adapterID.DeviceId);
+
+        D3DCAPS9                caps;
+        ZeroMemory(&caps, sizeof(caps));
+
+        hResult = m_pD3D9Ex->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &caps);
+        if (FAILED(hResult))
+        {
+            return hResult;
+        }
+        // Check if overlay is supported.
+        if (!(caps.Caps & D3DCAPS_OVERLAY))
+        {
+            //return D3DERR_UNSUPPORTEDOVERLAY;
+            continue;
+        }
+    }
+
+    D3DOVERLAYCAPS          overlayCaps = { 0 };
+
+    IDirect3D9ExOverlayExtension *pOverlay = NULL;
+
+    // Check specific overlay capabilities.
+    hResult = m_pD3D9Ex->QueryInterface(IID_PPV_ARGS(&pOverlay));
+
+    if (SUCCEEDED(hResult))
+    {
+        hResult = pOverlay->CheckDeviceOverlayType(
+            D3DADAPTER_DEFAULT,
+            D3DDEVTYPE_HAL,
+            RENDER_WIDTH,
+            RENDER_WIDTH,
+            D3DFMT_X8R8G8B8,
+            NULL,
+            D3DDISPLAYROTATION_IDENTITY,
+            &overlayCaps
+        );
+    }
+
+    // Create the overlay.
+    if (SUCCEEDED(hResult))
+    {
+
+        DWORD flags = D3DCREATE_FPU_PRESERVE |
+            D3DCREATE_MULTITHREADED |
+            D3DCREATE_SOFTWARE_VERTEXPROCESSING;
+
+
+        D3DPRESENT_PARAMETERS   pp = { 0 };
+
+        pp.BackBufferWidth = overlayCaps.MaxOverlayDisplayWidth;
+        pp.BackBufferHeight = overlayCaps.MaxOverlayDisplayHeight;
+        pp.BackBufferFormat = D3DFMT_X8R8G8B8;
+        pp.SwapEffect = D3DSWAPEFFECT_OVERLAY;
+        pp.hDeviceWindow = hWindow;
+        pp.Windowed = TRUE;
+        pp.Flags = D3DPRESENTFLAG_VIDEO;
+        pp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
+        pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
+
+        hResult = m_pD3D9Ex->CreateDeviceEx(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL,
+            NULL, flags, &pp, NULL, &m_pD3DDevice9Ex);
+    }
+
+// 	D3DPRESENT_PARAMETERS pParameter = { 0 };
+// 	pParameter.Windowed = TRUE;
+// 	pParameter.SwapEffect = D3DSWAPEFFECT_DISCARD;
+// 	pParameter.BackBufferFormat = D3DFMT_A8R8G8B8;
+// 	pParameter.EnableAutoDepthStencil = TRUE;
+// 	pParameter.AutoDepthStencilFormat = D3DFMT_D16;
+// 	pParameter.MultiSampleType = D3DMULTISAMPLE_NONE;
+// 	pParameter.PresentationInterval = 0x80000000L;
+// 
+// 	if (SUCCEEDED(m_pD3D9Ex->CheckDeviceMultiSampleType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DFMT_A8R8G8B8, true, D3DMULTISAMPLE_NONMASKABLE, &msqAAQuality)))
+// 	{
+// 		pParameter.MultiSampleType = D3DMULTISAMPLE_NONMASKABLE;
+// 		pParameter.MultiSampleQuality = msqAAQuality - 1;
+// 	}
+// 	else
+// 	{
+// 		pParameter.MultiSampleType = D3DMULTISAMPLE_NONE;
+// 	}
+// 
+// 	hResult = m_pD3D9Ex->CreateDeviceEx(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWindow, D3DCREATE_HARDWARE_VERTEXPROCESSING, &pParameter, NULL, &m_pD3DDevice9Ex);
+// 	if (FAILED(hResult))
+// 		return E_FAIL;
 
 	//==============================[ Add your custom Font here ]=================================//
 
