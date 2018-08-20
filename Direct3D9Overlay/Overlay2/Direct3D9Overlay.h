@@ -6,6 +6,8 @@
 #pragma once
 #include "../Overlay/Color.h"
 
+// https://github.com/spazzarama/Direct3DHook
+
 class CDirect3D9Overlay
 {
 public:
