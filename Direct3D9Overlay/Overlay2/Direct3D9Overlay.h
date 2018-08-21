@@ -3,6 +3,10 @@
 // http://www.cnblogs.com/gamesky/archive/2013/03/28/2986919.html
 // https://yq.aliyun.com/articles/10791
 
+// https://docs.microsoft.com/en-us/windows/desktop/api/_directdraw/
+// https://blog.csdn.net/lanyzh0909/article/details/6544885
+// http://blog.163.com/warking_xp/blog/static/1039103200581603531629/
+
 #pragma once
 #include "../Overlay/Color.h"
 
@@ -38,6 +42,8 @@ private:
 	HWND m_hWndTarget;
 	HWND m_hWndOverlay;
 	std::wstring m_strGameTitle;
+
+    IDirectDraw2* m_pDDraw2;
 
 	IDirect3D9Ex* m_pD3D9Ex;
 	IDirect3DDevice9Ex* m_pD3DDevice9Ex;

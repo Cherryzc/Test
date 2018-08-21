@@ -37,6 +37,7 @@ extern CAppModule _Module;
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <dwmapi.h>
+#include <ddraw.h>
 
 #pragma comment( lib, "d3d9.lib" )
 #pragma comment( lib, "d3dx9.lib" )
