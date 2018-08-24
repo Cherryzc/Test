@@ -12,22 +12,26 @@ private:
 
 public:
 	inline Color( void )
+		: A(255)
+		, R(255)
+		, G(255)
+		, B(255)
 	{
+	}
 
-	}
 	inline Color( int a, int r, int g, int b )
+		: A(a)
+		, R(r)
+		, G(g)
+		, B(b)
 	{
-		A = a;
-		R = r;
-		G = g;
-		B = b;
 	}
-	inline Color( int r, int g, int b ) 
+	inline Color( int r, int g, int b )
+		: A(255)
+		, R(r)
+		, G(g)
+		, B(b)
 	{
-		A = 255;
-		R = r;
-		G = g;
-		B = b;
 	}
 	inline int a( void ) const
 	{

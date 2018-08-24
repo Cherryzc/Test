@@ -49,7 +49,7 @@ HRESULT CDirect3D9Overlay::CreateOverlay(HWND hWnd, std::wstring szGameWindowTit
 	int y = rect_app.top + (rect_client.bottom - RENDER_HEIGHT) / 2;
 	MoveWindow(m_hWndOverlay, x, y, RENDER_WIDTH, RENDER_HEIGHT, TRUE);
 
-	return(SUCCEEDED(Startup(m_hWndOverlay)));
+	return Startup(m_hWndOverlay);
 }
 
 HRESULT CDirect3D9Overlay::Startup(HWND hWindow)
@@ -103,7 +103,7 @@ HRESULT CDirect3D9Overlay::Startup(HWND hWindow)
             D3DDEVTYPE_HAL,
             RENDER_WIDTH,
             RENDER_WIDTH,
-            D3DFMT_X8R8G8B8,
+			D3DFMT_A8R8G8B8,
             NULL,
             D3DDISPLAYROTATION_IDENTITY,
             &overlayCaps
@@ -123,7 +123,7 @@ HRESULT CDirect3D9Overlay::Startup(HWND hWindow)
 
         pp.BackBufferWidth = overlayCaps.MaxOverlayDisplayWidth;
         pp.BackBufferHeight = overlayCaps.MaxOverlayDisplayHeight;
-        pp.BackBufferFormat = D3DFMT_X8R8G8B8;
+        pp.BackBufferFormat = D3DFMT_A8R8G8B8;
         pp.SwapEffect = D3DSWAPEFFECT_OVERLAY;
         pp.hDeviceWindow = hWindow;
         pp.Windowed = TRUE;
@@ -132,7 +132,7 @@ HRESULT CDirect3D9Overlay::Startup(HWND hWindow)
         pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
 
         hResult = m_pD3D9Ex->CreateDeviceEx(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL,
-            NULL, flags, &pp, NULL, &m_pD3DDevice9Ex);
+			hWindow, D3DCREATE_HARDWARE_VERTEXPROCESSING, &pp, NULL, &m_pD3DDevice9Ex);
     }
 
 // 	D3DPRESENT_PARAMETERS pParameter = { 0 };
@@ -155,8 +155,10 @@ HRESULT CDirect3D9Overlay::Startup(HWND hWindow)
 // 	}
 // 
 // 	hResult = m_pD3D9Ex->CreateDeviceEx(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWindow, D3DCREATE_HARDWARE_VERTEXPROCESSING, &pParameter, NULL, &m_pD3DDevice9Ex);
-// 	if (FAILED(hResult))
-// 		return E_FAIL;
+	
+	
+	if (FAILED(hResult))
+		return E_FAIL;
 
 	//==============================[ Add your custom Font here ]=================================//
 
@@ -256,7 +258,7 @@ void CDirect3D9Overlay::String(int x, int y, Color color, ID3DXFont* pFont, cons
 	va_start(vaList, fmt);
 	vswprintf_s(Buffer, fmt, vaList);
 	RECT rect_pos = { x, y, x + 500, y + 100 };
-	pFont->DrawText(NULL, Buffer, -1, &rect_pos, DT_TOP, D3DCOLOR_ARGB(color.a(), color.r(), color.g(), color.b()));
+	INT n = pFont->DrawTextW(NULL, Buffer, -1, &rect_pos, DT_TOP, D3DCOLOR_ARGB(color.a(), color.r(), color.g(), color.b()));
 	va_end(vaList);
 }
 void CDirect3D9Overlay::StringOutlined(int x, int y, Color color, ID3DXFont* pFont, const wchar_t *fmt, ...)
@@ -275,7 +277,8 @@ void CDirect3D9Overlay::StringOutlined(int x, int y, Color color, ID3DXFont* pFo
 void CDirect3D9Overlay::Rect(int x, int y, int l, int h, Color color)
 {
 	D3DRECT rect = { x, y, x + l, y + h };
-	m_pD3DDevice9Ex->Clear(1, &rect, D3DCLEAR_TARGET, D3DCOLOR_ARGB(color.a(), color.r(), color.g(), color.b()), 0, 0);
+	HRESULT hr = m_pD3DDevice9Ex->Clear(1, &rect, D3DCLEAR_TARGET, D3DCOLOR_ARGB(color.a(), color.r(), color.g(), color.b()), 0, 0);
+	hr;
 }
 void CDirect3D9Overlay::BorderBox(int x, int y, int l, int h, int thickness, Color color)
 {
