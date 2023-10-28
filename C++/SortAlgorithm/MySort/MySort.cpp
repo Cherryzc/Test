@@ -26,7 +26,14 @@ int main()
 	//HeapSort3(arr, 9);
 	//QuickSort2(arr, 9);
 	//InsertSort(arr, 9);
-	ShellSort(arr, 9);
+	//ShellSort(arr, 9);
+	MergeSort(arr, 9);
+
+	float farr[9] = { 0.3f, 0.6f, 0.1f, 0.5f, 0.2f, 0.9f, 0.7f, 0.4f, 0.8f };
+	//BucketSort(farr, 9);
+	//CountingSort(arr, 9);
+	int bigarr[9] = { 113043, 103046, 2341, 214345, 150002, 100009, 910327, 444444, 888888 };
+	//RadixSort(bigarr, 9);
 	
 	cout << "sort:" << endl;;
 	PrintArr(arr, 9);
