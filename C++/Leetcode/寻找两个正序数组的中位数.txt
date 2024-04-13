@@ -1,0 +1,36 @@
+int GetNOx(vector<int>& nums1, int ibgn1, int iend1, vector<int>& nums2, int ibgn2, int iend2, int x)
+{
+    int nL1 = iend1 - ibgn1 + 1;
+    int nL2 = iend2 - ibgn2 + 1;
+
+    if (nL1 == 0)
+        return nums2[ibgn2 + x - 1];
+    if (nL2 == 0)
+        return nums1[ibgn1 + x - 1];
+    if (x == 1)
+    {
+        return min(nums1[ibgn1], nums2[ibgn2]);
+    }
+
+    int i1 = ibgn1 + min(nL1, x / 2) - 1;
+    int i2 = ibgn2 + min(nL2, x / 2) - 1;
+    if (nums1[i1] > nums2[i2])
+    {
+        return GetNOx(nums1, ibgn1, iend1, nums2, i2 + 1, iend2, x - (i2 - ibgn2 + 1));
+    }
+    return GetNOx(nums1, i1 + 1, iend1, nums2, ibgn2, iend2, x - (i1 - ibgn1 + 1));
+}
+double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+    int nL1 = nums1.size();
+    int nL2 = nums2.size();
+    //先判断奇数偶数个
+    int x = (nL1 + nL2 + 1) / 2; //第x个
+    if ((nL1 + nL2) % 2 == 1)
+    {
+        return GetNOx(nums1, 0, nL1 - 1, nums2, 0, nL2 - 1, x);
+    }
+    int r1 = GetNOx(nums1, 0, nL1 - 1, nums2, 0, nL2 - 1, x);
+    int r2 = GetNOx(nums1, 0, nL1 - 1, nums2, 0, nL2 - 1, x + 1);
+
+    return (double)(r1 + r2) / 2;
+}
